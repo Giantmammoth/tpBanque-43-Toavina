@@ -43,21 +43,21 @@ public class GestionnaireCompte {
     private EntityManager em;
 
     @Transactional
-    public void creerCompte (CompteBancaire compteBancaire) {
+    public void creerCompte(CompteBancaire compteBancaire) {
         em.persist(compteBancaire);
     }
-    
+
     public List<CompteBancaire> getAllComptes() {
         Query query = em.createNamedQuery("CompteBancaire.findAll");
-       return query.getResultList();
+        return query.getResultList();
     }
-    
+
     public Long nbComptes() {
         String req = "select count(e) from CompteBancaire as e";
         TypedQuery<Long> query = em.createQuery(req, Long.class);
         return query.getSingleResult();
     }
-    
+
     @Transactional
     public void transferer(CompteBancaire source, CompteBancaire destination,
             int montant) {
@@ -71,11 +71,11 @@ public class GestionnaireCompte {
     public CompteBancaire update(CompteBancaire compteBancaire) {
         return em.merge(compteBancaire);
     }
-    
+
     public CompteBancaire findById(Long idCompte) {
         return em.find(CompteBancaire.class, idCompte);
     }
-    
+
     /**
      * Dépôt d'argent sur un compte bancaire.
      *
@@ -99,6 +99,12 @@ public class GestionnaireCompte {
         compteBancaire.retirer(montant);
         update(compteBancaire);
     }
+
+    @Transactional
+    public void supprimerCompte(CompteBancaire compte) {
+        em.remove(em.merge(compte));
+    }
+
     /**
      * Creates a new instance of GestionnaireCompte
      */

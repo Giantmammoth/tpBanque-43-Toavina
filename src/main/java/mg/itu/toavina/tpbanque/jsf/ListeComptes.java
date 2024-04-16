@@ -10,6 +10,7 @@ import jakarta.inject.Inject;
 import java.io.Serializable;
 import java.util.List;
 import mg.itu.toavina.tpbanque.entity.CompteBancaire;
+import mg.itu.toavina.tpbanque.jsf.util.Util;
 import mg.itu.toavina.tpbanque.service.GestionnaireCompte;
 
 /**
@@ -19,8 +20,9 @@ import mg.itu.toavina.tpbanque.service.GestionnaireCompte;
 @Named(value = "listeComptes")
 @ViewScoped
 public class ListeComptes implements Serializable {
+
     private List<CompteBancaire> listeCompte;
-    
+
     @Inject
     private GestionnaireCompte gestionnaireCompte;
 
@@ -29,11 +31,17 @@ public class ListeComptes implements Serializable {
      */
     public ListeComptes() {
     }
-    
-    public List<CompteBancaire> getAllComptes(){
+
+    public List<CompteBancaire> getAllComptes() {
         if (listeCompte == null) {
             listeCompte = gestionnaireCompte.getAllComptes();
         }
         return listeCompte;
+    }
+
+    public String supprimerCompte(CompteBancaire compteBancaire) {
+        gestionnaireCompte.supprimerCompte(compteBancaire);
+        Util.addFlashInfoMessage("Compte de " + compteBancaire.getNom() + " supprimé");
+        return "listeComptes?faces-redirect=true";
     }
 }
