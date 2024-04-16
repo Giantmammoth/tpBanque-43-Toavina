@@ -31,10 +31,6 @@
                             </p:outputPanel>
                         </f:facet>
 
-                        <f:facet name="header">
-                            <span>Liste des compte</span>
-                        </f:facet>
-
                         <p:column sortBy="#{item.id}">
                             <f:facet name="header">
                                 <h:outputText value="Id"/>
@@ -57,7 +53,7 @@
                             <h:outputText value="#{item.solde}"/>
                         </p:column>
 
-                        <p:column width="10">
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Opérations"/>
                             </f:facet>
@@ -65,6 +61,14 @@
                                            title="Supprimer le compte de #{item.nom}" >
                                 <h:graphicImage name="images/del.png"/>
                             </h:commandLink>
+                        </p:column>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>                           
+                            <h:link  outcome="modifier?id=#{item.id}" 
+                            value="Modifier"/>
                         </p:column>
 
                     </p:dataTable>
