@@ -23,14 +23,6 @@
                                  rowsPerPageTemplate="2,4,8,10"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
-                        <f:facet name="header">
-                            <p:outputPanel>
-                                <h:outputText value="Recherche dans tous les champs de recherche"/>
-                                <p:inputText id="globalFilter" onkeyup="PF('listCompteTable').filter()"
-                                             style="width:150px"/>
-                            </p:outputPanel>
-                        </f:facet>
-
                         <p:column sortBy="#{item.id}">
                             <f:facet name="header">
                                 <h:outputText value="Id"/>
