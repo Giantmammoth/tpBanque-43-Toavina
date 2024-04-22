@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/templates/template_defaut.xhtml">
+           
+
+                <ui:define name="metadata">
+                    <f:metadata>  
+                        <f:viewParam name="id" value="#{operation.id}"  
+                                     required="true"/>  
+                        <f:viewAction action="#{operation.loadCompte}"/>  
+                    </f:metadata>
+                </ui:define>
+
+                <ui:define name="top">
+                    Historique des operations
+                </ui:define>
+
+                <ui:define name="content">
+                    <f:view>
+                        <h1><h:outputText value="Historique des operations sur le compte de #{operation.compte.nom}"/></h1>
+                        <h:panelGrid>
+                            <h:form>
+                                <p:dataTable value="#{operation.operationBancaire}" var="item" widgetVar="listeOperationBancaireTable"
+                                             emptyMessage="Aucun copmte avec ce critère"
+                                             paginator="true"
+                                             rows="10"
+                                             rowsPerPageTemplate="2,4,8,10"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+                                    <f:facet name="header">
+                                        <p:outputPanel>
+                                            <h:outputText value="Recherche "/>
+                                            <p:inputText id="globalFilter" onkeyup="PF('listeOperationBancaireTable').filter()"
+                                                         style="width:150px"/>
+                                        </p:outputPanel>
+                                    </f:facet>
+
+                                    <p:column sortBy="#{item.id}">
+                                        <f:facet name="header">
+                                            <h:outputText value="Id"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.id}"/>
+
+                                    </p:column>
+
+                                    <p:column sortBy="#{item.description}">
+                                        <f:facet name="header">
+                                            <h:outputText value="Description"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.description}"/>
+                                    </p:column>
+
+                                    <p:column sortBy="#{item.dateOperation}">
+                                        <f:facet name="header">
+                                            <h:outputText value="Date opération"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.dateOperation}">
+                                            <f:convertDateTime type="localDateTime" dateStyle="short"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column sortBy="#{item.montant}">
+                                        <f:facet name="header">
+                                            <h:outputText value="Montant"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.montant}"/>
+                                    </p:column>
+                                </p:dataTable>
+                                <h:messages/>
+                            </h:form>
+                        </h:panelGrid>
+                    </f:view>
+                </ui:define>
+
+            </ui:composition>
+
+    </body>
+</html>
