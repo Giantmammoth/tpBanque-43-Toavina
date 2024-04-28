@@ -14,6 +14,7 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +26,7 @@ import java.util.List;
 @Entity
 @Table(name = "COMPTEBANCAIRE")
 @NamedQueries({
-    @NamedQuery(name = "CompteBancaire.findAll", query = "SELECT c FROM CompteBancaire c"),
-})
+    @NamedQuery(name = "CompteBancaire.findAll", query = "SELECT c FROM CompteBancaire c join fetch c.operations"),})
 public class CompteBancaire implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,9 +36,22 @@ public class CompteBancaire implements Serializable {
     private String nom;
     private int solde;
 
+    @Version
+    private int version;
+
     public CompteBancaire() {
     }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
     
+    
+
     public int getSolde() {
         return solde;
     }
@@ -58,12 +71,12 @@ public class CompteBancaire implements Serializable {
     public Long getId() {
         return id;
     }
-    
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)  
-    private List<OperationBancaire> operations = new ArrayList<>();  
-                    
-    public List<OperationBancaire> getOperations() {  
-      return operations;  
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<OperationBancaire> operations = new ArrayList<>();
+
+    public List<OperationBancaire> getOperations() {
+        return operations;
     }
 
     public CompteBancaire(String nom, int solde) {

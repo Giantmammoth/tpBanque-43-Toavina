@@ -95,13 +95,17 @@ public class TransfertArgent {
         CompteBancaire compteSource = gestionnaireCompte.findById(idSource);
         CompteBancaire compteDestination = gestionnaireCompte.findById(idDestination);
         
-        if (compteSource == null || compteDestination == null) {
+        if (compteSource == null) {
             // Message d'erreur associé au composant source ; form:source est l'id client
             // si l'id du formulaire est "form" et l'id du champ de saisie de l'id de la source est "source"
             // dans la page JSF qui lance le transfert.
             Util.messageErreur("Aucun compte avec cet id !", "Aucun compte avec cet id !", "form:source");
             erreur = true;
-        } else {
+        } else if (compteDestination == null) {
+            Util.messageErreur("Aucun compte avec cet id !", "Aucun compte avec cet id !", "form:source");
+            erreur = true;
+        } 
+        else {
             if (compteSource.getSolde() < montant) { // à compléter pour le cas où le solde du compte source est insuffisant...
                 
                 Util.messageErreur("Votre solde est insuffisant !", "Votre solde est insuffisant !", "form:source");
